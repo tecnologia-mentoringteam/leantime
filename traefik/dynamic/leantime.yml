@@ -1,0 +1,29 @@
+http:
+  middlewares:
+    redirect-to-https:
+      redirectScheme:
+        scheme: https
+        permanent: true
+
+  routers:
+    leantime-http:
+      rule: "Host(`DOMAIN.local`)"
+      entryPoints:
+        - web
+      middlewares:
+        - redirect-to-https
+      service: leantime-svc
+
+    leantime-router:
+      rule: "Host(`DOMAIN.local`)"
+      entryPoints:
+        - websecure
+      tls:
+        certResolver: le
+      service: leantime-svc
+
+  services:
+    leantime-svc:
+      loadBalancer:
+        servers:
+          - url: "http://leantime:8080"

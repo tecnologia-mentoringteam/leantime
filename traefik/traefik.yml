@@ -1,0 +1,21 @@
+entryPoints:
+  web:
+    address: ":80"
+  websecure:
+    address: ":443"
+
+providers:
+  file:
+    # diretório ou um único arquivo dinâmico; usaremos /dynamic
+    directory: /dynamic
+    watch: true
+
+certificatesResolvers:
+  le:
+    acme:
+      email: tecnologia.mentoringteam@gmail.com
+      storage: /acme.json
+      httpChallenge:
+        entryPoint: web
+log:
+  level: INFO
