@@ -1,3 +1,6 @@
+api:
+  dashboard: true
+
 entryPoints:
   web:
     address: ":80"
@@ -6,7 +9,6 @@ entryPoints:
 
 providers:
   file:
-    # diretório ou um único arquivo dinâmico; usaremos /dynamic
     directory: /dynamic
     watch: true
 
@@ -17,5 +19,9 @@ certificatesResolvers:
       storage: /acme.json
       httpChallenge:
         entryPoint: web
+
 log:
   level: INFO
+
+accessLog: {}
+

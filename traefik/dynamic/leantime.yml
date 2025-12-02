@@ -27,3 +27,4 @@ http:
       loadBalancer:
         servers:
           - url: "http://leantime:8080"
+

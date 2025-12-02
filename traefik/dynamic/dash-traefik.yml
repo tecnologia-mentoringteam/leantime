@@ -1,0 +1,18 @@
+http:
+  middlewares:
+    traefik-dashboard-auth:
+      basicAuth:
+        # Cole aqui a(s) linhas geradas por htpasswd (user:hash)
+        users:
+          - "admin:$2y$05$EXEMPLODeHASHGeradoPeloHtpasswd"
+
+  routers:
+    traefik-dashboard:
+      rule: "Host(`traefik.DOMAIN.local`)"
+      entryPoints:
+        - websecure
+      service: api@internal
+      middlewares:
+        - traefik-dashboard-auth
+      tls:
+        certResolver: le

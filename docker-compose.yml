@@ -1,30 +1,6 @@
 version: '3.3'
 
 services:
-  traefik:
-    image: traefik:v2.10 # ou v2.x mais recente
-    container_name: traefik
-    restart: unless-stopped
-    ports:
-      - "80:80"     # HTTP (necessário para challenge http-01)
-      - "443:443"   # HTTPS
- #     - "8081:8080" # Traefik dashboard (mude ou proteja em produção)
-    networks:
-      - leantime-net
-    volumes:
-      - ./traefik/acme.json:/acme.json
-      - ./traefik/traefik.yml:/traefik.yml   # config estática opcional
-      - ./traefik/log:/traefik/log
-      - ./traefik/dynamic:/dynamic:ro
-    labels:
-      - "traefik.enable=true"
-      # Proteja o dashboard em produção (exemplo: basic auth) — aqui só habilita
-      - "traefik.http.routers.traefik.rule=Host(`traefik.DOMAIN.local`)"
-      - "traefik.http.routers.traefik.entrypoints=websecure"
-      - "traefik.http.routers.traefik.tls=true"
-      - "traefik.http.routers.traefik.service=api@internal"
-      - "traefik.http.routers.traefik.tls.certresolver=le"
-
   leantime_db:
     image: mysql:8.4
     container_name: mysql_leantime
@@ -55,7 +31,7 @@ services:
       - CAP_SETGID
       - CAP_SETUID
     ports:
-      - "8080:8080"
+      - "8080:8080" #Desabilite acesso via 8080 em produção.
     networks:
       - leantime-net
     volumes:
@@ -65,13 +41,6 @@ services:
       - logs:/var/www/html/storage/logs                     # Log storage
     depends_on:
       leantime_db:
-        condition: service_healthy
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.leantime.rule=Host(`DOMAIN.local`)"
-      - "traefik.http.routers.leantime.entrypoints=websecure"
-      - "traefik.http.routers.leantime.tls.certresolver=le"
-      # informa qual porta interna o serviço escuta (no container)
 
   # Add a helper container for volume permissions
   # Run via docker compose --profile mysql_helper up -d
@@ -85,7 +54,7 @@ services:
 
 volumes:
   db_data:
-  userfiles:                                               # New volume for public files
+  userfiles:
   public_userfiles:
   plugins:
   logs:

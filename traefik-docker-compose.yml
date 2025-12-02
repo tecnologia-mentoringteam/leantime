@@ -1,0 +1,20 @@
+version: '3.3'
+
+services:
+  traefik:
+    image: traefik:v2.10 # ou v2.x mais recente
+    container_name: traefik
+    restart: unless-stopped
+    ports:
+      - "80:80"     # HTTP (necessário para challenge http-01)
+      - "443:443"   # HTTPS
+ #     - "8081:8080" # Traefik dashboard (mude ou proteja em produção)
+    networks:
+      - leantime-net
+    volumes:
+      - ./traefik/acme.json:/acme.json
+      - ./traefik/traefik.yml:/traefik.yml
+      - ./traefik/log:/traefik/log
+      - ./traefik/dynamic:/dynamic:ro
+networks:
+  leantime-net:
