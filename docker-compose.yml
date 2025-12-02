@@ -41,6 +41,8 @@ services:
       - logs:/var/www/html/storage/logs                     # Log storage
     depends_on:
       leantime_db:
+        condition: service_healthy
+
 
   # Add a helper container for volume permissions
   # Run via docker compose --profile mysql_helper up -d
