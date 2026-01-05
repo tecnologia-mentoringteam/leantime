@@ -96,7 +96,7 @@ O Traefik funciona como proxy reverso para o Leantime e gera certificados Let's 
 Aplicação traefik
 ### 7.2 Arquivo traefik/*, arquivos de configuração do traefik.
 Inclui:
-- Habilitação de dashboard(Desabilitado por padrão)
+- Habilitação de dashboard(Habilitado por padrão mas indico desativar em produção)
 - Configuração da entrypoint http/https
 - CertResolver Let's Encrypt
 ### 7.2.1 Altere o arquivo traefik/dynamic/leantime.yml
